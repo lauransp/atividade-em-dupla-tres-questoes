@@ -28,13 +28,6 @@ INSERT INTO pets (nome, especie, tutor, idade) VALUES (?, ?, ?, ?)
 conexao.commit()
 
 
-
-
-cursor.execute("SELECT * FROM pets")
-pets = cursor.fetchall()
-for pet in pets:
-    print(pet)
-
 cursor.execute("SELECT * FROM pets WHERE especie =  ?", ("Cachorro",))
 print(cursor.fetchall())
 
@@ -50,4 +43,12 @@ print(cursor.execute("DELETE FROM pets WHERE id = ?", (2,)).fetchone())
 cursor.execute("SELECT * FROM pets")
 pets = cursor.fetchall()
 
-
+cursor.execute("""
+DELETE FROM pets
+ WHERE rowid NOT IN (
+    SELECT MIN(rowid)
+    FROM pets
+    GROUP BY nome, especie, tutor, idade
+)
+"""
+)
