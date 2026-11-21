@@ -89,5 +89,7 @@ try:
             print(f"Autor: {livro[2]}")
             print(f"Ano: {livro[3]}")
 
+    cursor.close()
+
 except sqlite3.Error as erro:
-    print("Erro ao excluir: ", erro)
+    print("Erro no banco de dados: ", erro)
